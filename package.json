@@ -1,0 +1,42 @@
+{
+  "name": "wordpress-jwt-auth",
+  "version": "1.0.0",
+  "description": "Wordpress JWT authentication",
+  "main": "dist/Index.js",
+  "homepage": "https://github.com/dderevjanik/wordpress-jwt-auth",
+  "author": {
+    "name": "Daniel Derevjanik",
+    "email": "daniel.derevjanik@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dderevjanik/wordpress-jwt-auth.git"
+  },
+  "keywords": [
+    "wordpress",
+    "api",
+    "wordpress-jwt",
+    "wordpress-auth",
+    "wordpress-jwt-auth",
+    "typescript"
+  ],
+  "typescript": {
+    "definition": "dist/Index.d.ts"
+  },
+  "types": "dist/Index.d.ts",
+  "typings": "dist/Index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "lint": "tslint -c tslint.json --fix 'lib/**/*.ts'"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "ts-lint": "^4.5.1",
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+  }
+}
