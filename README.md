@@ -8,7 +8,7 @@ JS Wrapper for [wp-api-jwt-auth](https://github.com/Tmeister/wp-api-jwt-auth)
 
 Please, make sure that you have:
 
-- installed [wp-api-jwt-auth](https://github.com/Tmeister/wp-api-jwt-auth) on your wp site
+- installed [wp-api-jwt-auth](https://github.com/Tmeister/wp-api-jwt-auth) and enabled on your wp site
 - enabled [HTTP Authorization Header](https://github.com/Tmeister/wp-api-jwt-auth#eable-php-http-authorization-header)
 - configurated [Secret Key](https://github.com/Tmeister/wp-api-jwt-auth#configurate-the-secret-key) and [CORs Support](https://github.com/Tmeister/wp-api-jwt-auth#configurate-cors-support)
 
@@ -19,6 +19,8 @@ npm install wordpress-jwt-auth
 ```
 
 ## Example
+
+### `Authenticate(host, username, password)`
 
 Authenticate using JWT
 
