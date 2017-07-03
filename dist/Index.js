@@ -1,12 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -53,9 +45,8 @@ var JWT_ENDPOINT = '/wp-json/jwt-auth/v1/';
  * @param password - user's password used to login
  * @throws {CannotAuthenticate}
  */
-exports.authenticate = function (host, username, password) { return __awaiter(_this, void 0, void 0, function () {
-    var _this = this;
-    var endPoint, response, jwt;
+exports.generateToken = function (host, username, password) { return __awaiter(_this, void 0, void 0, function () {
+    var endPoint, response;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -66,29 +57,54 @@ exports.authenticate = function (host, username, password) { return __awaiter(_t
                 if (!response.data.token) {
                     throw new Error('CannotAuthenticate: bad username or password');
                 }
-                jwt = response.data;
-                return [2 /*return*/, __assign({}, jwt, { 
-                        /**
-                         * Validate token
-                         * @returns true if token is successfully validated
-                         */
-                        validate: function () { return __awaiter(_this, void 0, void 0, function () {
-                            var authHeader, valResponse;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        authHeader = { headers: { Authorization: 'bearer ' + jwt.token } };
-                                        return [4 /*yield*/, axios_1.default.post(endPoint + 'validate', {}, authHeader)];
-                                    case 1:
-                                        valResponse = _a.sent();
-                                        if (valResponse.status === 200) {
-                                            return [2 /*return*/, true];
-                                        }
-                                        return [2 /*return*/, false];
-                                }
-                            });
-                        }); } })];
+                return [2 /*return*/, response.data];
         }
+    });
+}); };
+/**
+ * Validate token
+ * @returns true if token is successfully validated
+ */
+exports.validateToken = function (host, token) { return __awaiter(_this, void 0, void 0, function () {
+    var endPoint, authHeader, response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                endPoint = host + JWT_ENDPOINT;
+                authHeader = { headers: { Authorization: 'bearer ' + token } };
+                return [4 /*yield*/, axios_1.default.post(endPoint + 'validate', {}, authHeader)];
+            case 1:
+                response = _a.sent();
+                if (response.status === 200) {
+                    return [2 /*return*/, true];
+                }
+                return [2 /*return*/, false];
+        }
+    });
+}); };
+/**
+ * Connect to wordpress jwt API
+ * @param host - url to wordpress
+ */
+exports.connect = function (host) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        // try to connect
+        return [2 /*return*/, {
+                /**
+                 * Authenticate user
+                 * @param host - hot URL
+                 * @param username - user's name used to login
+                 * @param password - user's password used to login
+                 * @throws {CannotAuthenticate}
+                 */
+                generateToken: function (username, password) { return exports.generateToken(host, username, password); },
+                /**
+                 * Validate token
+                 * @param token - token to validate
+                 * @returns true if token is successfully validated
+                 */
+                validateToken: function (token) { return exports.validateToken(host, token); },
+            }];
     });
 }); };
 //# sourceMappingURL=Index.js.map
