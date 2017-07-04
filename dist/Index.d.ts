@@ -21,7 +21,7 @@ export interface JWT {
 }
 /**
  * Authenticate user
- * @param host - hot URL
+ * @param host - host URL
  * @param username - user's name used to login
  * @param password - user's password used to login
  * @throws {CannotAuthenticate}
@@ -29,12 +29,15 @@ export interface JWT {
 export declare const generateToken: (host: string, username: string, password: string) => Promise<JWT>;
 /**
  * Validate token
+ * @param host - host URL
+ * @param token - token to validate
  * @returns true if token is successfully validated
  */
 export declare const validateToken: (host: string, token: string) => Promise<boolean>;
 /**
  * Connect to wordpress jwt API
  * @param host - url to wordpress
+ * @throws {CannotConnect}
  */
 export declare const connectToJwt: (host: string) => Promise<{
     generateToken: (username: string, password: string) => Promise<JWT>;

@@ -29,7 +29,7 @@ export interface JWT {
 
 /**
  * Authenticate user
- * @param host - hot URL
+ * @param host - host URL
  * @param username - user's name used to login
  * @param password - user's password used to login
  * @throws {CannotAuthenticate}
@@ -37,14 +37,18 @@ export interface JWT {
 export const generateToken = async (host: string, username: string, password: string): Promise<JWT> => {
     const endPoint = host + JWT_ENDPOINT;
     const response = await axios.post(endPoint + 'token', { username, password });
-    if (!response.data.token) {
-        throw new Error('CannotAuthenticate: bad username or password');
+    switch (response.status) {
+        case 403: throw new Error('CannotAuthenticate: Bad username or password');
+        case 404: throw new Error(`CannotAuthenticate: Page doesn\'t exists, make sure JWT is installed`);
     }
+
     return response.data as JWT;
 };
 
 /**
  * Validate token
+ * @param host - host URL
+ * @param token - token to validate
  * @returns true if token is successfully validated
  */
 export const validateToken = async (host: string, token: string): Promise<boolean> => {
@@ -60,13 +64,18 @@ export const validateToken = async (host: string, token: string): Promise<boolea
 /**
  * Connect to wordpress jwt API
  * @param host - url to wordpress
+ * @throws {CannotConnect}
  */
 export const connectToJwt = async (host: string) => {
-    // try to connect
+    const response = await axios.post(`${host}/${JWT_ENDPOINT}/token`);
+    if (response.status === 404) {
+        throw new Error('CannotConnect: bad host or JWT is not installed');
+    }
+
     return {
         /**
          * Authenticate user
-         * @param host - hot URL
+         * @param host - host URL
          * @param username - user's name used to login
          * @param password - user's password used to login
          * @throws {CannotAuthenticate}

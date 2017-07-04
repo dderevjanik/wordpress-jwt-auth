@@ -40,7 +40,7 @@ var axios_1 = require("axios");
 var JWT_ENDPOINT = '/wp-json/jwt-auth/v1/';
 /**
  * Authenticate user
- * @param host - hot URL
+ * @param host - host URL
  * @param username - user's name used to login
  * @param password - user's password used to login
  * @throws {CannotAuthenticate}
@@ -54,8 +54,9 @@ exports.generateToken = function (host, username, password) { return __awaiter(_
                 return [4 /*yield*/, axios_1.default.post(endPoint + 'token', { username: username, password: password })];
             case 1:
                 response = _a.sent();
-                if (!response.data.token) {
-                    throw new Error('CannotAuthenticate: bad username or password');
+                switch (response.status) {
+                    case 403: throw new Error('CannotAuthenticate: Bad username or password');
+                    case 404: throw new Error("CannotAuthenticate: Page doesn't exists, make sure JWT is installed");
                 }
                 return [2 /*return*/, response.data];
         }
@@ -63,6 +64,8 @@ exports.generateToken = function (host, username, password) { return __awaiter(_
 }); };
 /**
  * Validate token
+ * @param host - host URL
+ * @param token - token to validate
  * @returns true if token is successfully validated
  */
 exports.validateToken = function (host, token) { return __awaiter(_this, void 0, void 0, function () {
@@ -85,26 +88,35 @@ exports.validateToken = function (host, token) { return __awaiter(_this, void 0,
 /**
  * Connect to wordpress jwt API
  * @param host - url to wordpress
+ * @throws {CannotConnect}
  */
 exports.connectToJwt = function (host) { return __awaiter(_this, void 0, void 0, function () {
+    var response;
     return __generator(this, function (_a) {
-        // try to connect
-        return [2 /*return*/, {
-                /**
-                 * Authenticate user
-                 * @param host - hot URL
-                 * @param username - user's name used to login
-                 * @param password - user's password used to login
-                 * @throws {CannotAuthenticate}
-                 */
-                generateToken: function (username, password) { return exports.generateToken(host, username, password); },
-                /**
-                 * Validate token
-                 * @param token - token to validate
-                 * @returns true if token is successfully validated
-                 */
-                validateToken: function (token) { return exports.validateToken(host, token); },
-            }];
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, axios_1.default.post(host + "/" + JWT_ENDPOINT + "/token")];
+            case 1:
+                response = _a.sent();
+                if (response.status === 404) {
+                    throw new Error('CannotConnect: bad host or JWT is not installed');
+                }
+                return [2 /*return*/, {
+                        /**
+                         * Authenticate user
+                         * @param host - host URL
+                         * @param username - user's name used to login
+                         * @param password - user's password used to login
+                         * @throws {CannotAuthenticate}
+                         */
+                        generateToken: function (username, password) { return exports.generateToken(host, username, password); },
+                        /**
+                         * Validate token
+                         * @param token - token to validate
+                         * @returns true if token is successfully validated
+                         */
+                        validateToken: function (token) { return exports.validateToken(host, token); },
+                    }];
+        }
     });
 }); };
 //# sourceMappingURL=Index.js.map
