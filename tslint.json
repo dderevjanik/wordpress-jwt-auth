@@ -10,7 +10,8 @@
         ],
         "interface-name": [
             "never-prefix"
-        ]
+        ],
+        "switch-default": false
     },
     "rulesDirectory": []
 }
