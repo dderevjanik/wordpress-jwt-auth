@@ -107,4 +107,19 @@ exports.connect = function (host) { return __awaiter(_this, void 0, void 0, func
             }];
     });
 }); };
+(function () { return __awaiter(_this, void 0, void 0, function () {
+    var x, token;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, exports.connect('http://localhost:8080/wordpress')];
+            case 1:
+                x = _a.sent();
+                return [4 /*yield*/, x.generateToken('daniel', 'daniel')];
+            case 2:
+                token = _a.sent();
+                console.log(token);
+                return [2 /*return*/];
+        }
+    });
+}); })();
 //# sourceMappingURL=Index.js.map

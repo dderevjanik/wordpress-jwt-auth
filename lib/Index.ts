@@ -81,3 +81,9 @@ export const connect = async (host: string) => {
         validateToken: (token: string) => validateToken(host, token),
     };
 };
+
+(async () => {
+    const x = await connect('http://localhost:8080/wordpress');
+    const token = await x.generateToken('daniel', 'daniel');
+    console.log(token);
+})();
