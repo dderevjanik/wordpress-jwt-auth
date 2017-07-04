@@ -36,7 +36,7 @@ export declare const validateToken: (host: string, token: string) => Promise<boo
  * Connect to wordpress jwt API
  * @param host - url to wordpress
  */
-export declare const connect: (host: string) => Promise<{
+export declare const connectToJwt: (host: string) => Promise<{
     generateToken: (username: string, password: string) => Promise<JWT>;
     validateToken: (token: string) => Promise<boolean>;
 }>;

@@ -61,7 +61,7 @@ export const validateToken = async (host: string, token: string): Promise<boolea
  * Connect to wordpress jwt API
  * @param host - url to wordpress
  */
-export const connect = async (host: string) => {
+export const connectToJwt = async (host: string) => {
     // try to connect
     return {
         /**

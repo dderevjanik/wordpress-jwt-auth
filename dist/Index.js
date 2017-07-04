@@ -86,7 +86,7 @@ exports.validateToken = function (host, token) { return __awaiter(_this, void 0,
  * Connect to wordpress jwt API
  * @param host - url to wordpress
  */
-exports.connect = function (host) { return __awaiter(_this, void 0, void 0, function () {
+exports.connectToJwt = function (host) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         // try to connect
         return [2 /*return*/, {

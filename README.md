@@ -20,34 +20,56 @@ npm install wordpress-jwt-auth
 
 ## Example
 
-### `Authenticate(host, username, password)`
+### `connectToJwt(host)`
 
 Authenticate using JWT
 
 ```javascript
-import { authenticate } from 'wordpress-jwt-auth';
+import { connectToJwt } from 'wordpress-jwt-auth';
 
-authenticate('https://www.myhosting.com/wordpress', 'admin', '123456').then((jwt) => {
-    console.log(jwt.token);
-    // generated token
+// Promise
+connectToJwt('https://www.myhosting.com/wordpress').then((jwtConnection) => {
+    jwtConnection.generateToken('admin', 'password').then(userConnection) => {
+        console.log(userConnection.token);
+        // generated token
 
-    jwt.validate().then(validated => {
-        console.log(validate);
-        // true
+        jwtConnection.validate().then(validated => {
+            console.log(validate);
+            // true
+        });
     });
 });
+
+// Await/Async
+const jwtConnection = await connectToJwt('https://www.myhosting.com/wordpress');
+const { token } = await jwtConnection.generateToken('admin', 'password');
+console.log(jwtConnection.validate(token));
+// true
 ```
+
+### `generateToken(username, password)`
+
+You can import `generateToken` directly from library
+
+```javascript
+import { generateToken } from 'wordpress-jwt-auth';
+
+const { token } = generateToken('admin', 'root');
+```
+
+### Real use
 
 Deleting a post with id `32` from wordpress using [REST API](https://developer.wordpress.org/rest-api/)
 
 ```javascript
 import axios from 'axios';
-import { authenticate } from 'wordpress-jwt-auth';
+import { connectToJwt } from 'wordpress-jwt-auth';
 
 const WP_URL = 'https://www.mywordpress.com';
 const POST_ID_TO_DELETE = 32;
 
-const { token } = await authenticate(WP_URL, 'superadmin', '2489cs12mklz');
+const { generateToken } = await connectToJwt(WP_URL);
+const { token } = await generateToken('superadmin', '2489cs12mklz');
 const authHeader = { headers: { Authorization: `bearer ${token}` } };
 
 axios.delete(`${WP_URL}/wp-json/wp/v2/posts/${POST_ID_TO_DELETE}`, {}, authHeader);
