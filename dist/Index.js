@@ -103,7 +103,6 @@ exports.connectToJwt = function (host) { return __awaiter(_this, void 0, void 0,
                 return [2 /*return*/, {
                         /**
                          * Authenticate user
-                         * @param host - host URL
                          * @param username - user's name used to login
                          * @param password - user's password used to login
                          * @throws {CannotAuthenticate}

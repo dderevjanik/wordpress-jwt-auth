@@ -75,7 +75,6 @@ export const connectToJwt = async (host: string) => {
     return {
         /**
          * Authenticate user
-         * @param host - host URL
          * @param username - user's name used to login
          * @param password - user's password used to login
          * @throws {CannotAuthenticate}
