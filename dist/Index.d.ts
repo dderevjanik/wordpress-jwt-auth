@@ -40,6 +40,6 @@ export declare const validateToken: (host: string, token: string) => Promise<boo
  * @throws {CannotConnect}
  */
 export declare const connectToJwt: (host: string) => Promise<{
-    generateToken: (username: string, password: string) => Promise<JWT>;
-    validateToken: (token: string) => Promise<boolean>;
+    generateToken: any;
+    validateToken: any;
 }>;

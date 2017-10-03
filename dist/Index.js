@@ -103,18 +103,17 @@ exports.connectToJwt = function (host) { return __awaiter(_this, void 0, void 0,
                 return [2 /*return*/, {
                         /**
                          * Authenticate user
-                         * @param host - host URL
                          * @param username - user's name used to login
                          * @param password - user's password used to login
                          * @throws {CannotAuthenticate}
                          */
-                        generateToken: function (username, password) { return exports.generateToken(host, username, password); },
+                        generateToken: exports.generateToken.bind(null, host),
                         /**
                          * Validate token
                          * @param token - token to validate
                          * @returns true if token is successfully validated
                          */
-                        validateToken: function (token) { return exports.validateToken(host, token); },
+                        validateToken: exports.validateToken.bind(null, host),
                     }];
         }
     });
